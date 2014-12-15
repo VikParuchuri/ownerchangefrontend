@@ -100,14 +100,22 @@ angular.module('ownerchangefrontendApp')
                     var startID = $scope.startingCoach.id + "_" + $scope.startingGM.id + "_" + $scope.startingOwner.id + "_" + $scope.selectedTeam.originalObject.code;
                     var startWins = $scope.selectedTeamWins[startID];
 
-                    console.log(newWins);
-                    console.log(startWins);
-                    console.log(id);
-                    console.log(startID);
+                    $scope.winData = undefined;
+                    $scope.winState = "original";
+                    if (!$scope.$$phase) $scope.$apply();
                     if (newWins != undefined && startWins != undefined) {
                         $scope.newWins = newWins;
                         $scope.startWins = startWins;
-                        console.log(startWins);
+                        $scope.winData = [
+                            {
+                                "wins": startWins + Math.random()/100,
+                                "color": $scope.selectedTeamShareColors[0]
+                            },
+                            {
+                                "wins": newWins + Math.random()/100,
+                                "color": $scope.selectedTeamShareColors[1]
+                            }
+                        ];
                         var diff = $scope.newWins - $scope.startWins;
                         if(diff < - 2){
                             $scope.winState = "much_worse";

@@ -98,17 +98,16 @@
                     <p>We can't find the owner that you entered.  The OwnerDraft database only contains active owners in 2014.  If you have a name you want added, let <a href="http://www.twitter.com/vikparuchuri">@vikparuchuri</a> know!</p>
                 </span>
                 <span ng-switch-default>
+                    <bars data="{{winData}}" ng-if="winData != undefined"></bars>
                     <p>The new leadership for the {{selectedTeam.originalObject.nick}} would be {{winText}}.</p>
                 </span>
             </div>
-            {{newWins}}
-            {{startWins}}
         </div>
     </div>
 </div>
 
 
-<div class="row social-media-row">
+<div class="row social-media-row fade-in-animation" ng-if="selectedTeamPeople != undefined">
     <div class="col-md-1">
         <p class="hidden-xs hidden-sm share-text">Share: </p>
     </div>

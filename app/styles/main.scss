@@ -213,33 +213,42 @@ body {
   margin-top: 8px;
 }
 
-.fade-in-animation.ng-enter {
-  -webkit-animation: 0.5s fade-in;
-  -moz-animation: 0.5s fade-in;
-  -o-animation: 0.5s fade-in;
-  animation: 0.5s fade-in;
-  /* The animation preparation code */
-  opacity: 0;
+ .fade-in-animation.ng-enter, .fade-in-animation.ng-leave {
+    -webkit-transition: 1s linear all;
+    -moz-transition: 1s linear all;
+    -ms-transition: 1s linear all;
+    -o-transition: 1s linear all;
+    transition: 1s linear all;
 }
-
-.fade-in-animation.ng-enter.ng-enter-active {
-  opacity: 1;
+/* du début de l'entrée */
+ .fade-in-animation.ng-enter {
+    max-height: 0;
+    opacity: 0;
 }
-
-.fade-out-animation.ng-leave {
-  -webkit-animation: 0.5s fade-out;
-  -moz-animation: 0.5s fade-out;
-  -o-animation: 0.5s fade-out;
-  animation: 0.5s fade-out;
-
-  /* The animation preparation code */
-  opacity: 1;
+/* à la fin de l'entrée */
+ .fade-in-animation.ng-enter.ng-enter-active {
+    max-height: 999px;
+    opacity:1;
 }
-
-.fade-in-animation.ng-leave.ng-leave-active {
-  opacity: 0;
+/* du début de la sortie */
+ .fade-in-animation.ng-leave {
+    max-height: 999px;
+    opacity:1;
+}
+/* à la fin de la sortie */
+ .fade-in-animation.ng-leave.ng-leave-active {
+    max-height: 0;
+    opacity:1;
 }
 
 .about-row{
   margin-top: 30px;
 }
+
+.chart rect {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}
+
