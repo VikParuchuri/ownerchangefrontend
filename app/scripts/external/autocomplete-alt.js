@@ -82,7 +82,7 @@ angular.module('angucomplete-alt', [] )
       fieldRequiredClass: '@',
       inputChanged: '=',
       autoMatch: '@',
-      focusOut: '&',
+      focusOut: '=',
       focusIn: '&'
     },
     templateUrl: function(element, attrs) {
@@ -229,6 +229,9 @@ angular.module('angucomplete-alt', [] )
           }
         }
         else if (which === KEY_ES) {
+          if(scope.focusOut){
+            scope.focusOut();
+          }
           clearResults();
           scope.$apply(function() {
             inputField.val(scope.searchStr);
@@ -312,6 +315,10 @@ angular.module('angucomplete-alt', [] )
             event.preventDefault();
             scope.selectResult(scope.results[scope.currentIndex]);
           } else {
+            if(scope.focusOut){
+              scope.focusOut();
+            }
+
             handleOverrideSuggestions(event);
             clearResults();
           }

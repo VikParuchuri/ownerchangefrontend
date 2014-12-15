@@ -23,7 +23,7 @@
         </div>
 </div>
 
-<div class="row" ng-if="selectedTeamPeople != undefined">
+<div class="row fade-in-animation" ng-if="selectedTeamPeople != undefined">
         <div class="col-md-6 leaders old-leaders">
                 <h4><img class="team-image" ng-src="{{selectedTeam.image}}"> Current Leadership</h4>
                 <ul>
@@ -45,6 +45,7 @@
               minlength="1"
               input-class="form-control"
               input-changed="updateWins"
+              focus-out="clickOff"
               initial-value="{{selectedTeamPeople.owner}}"
                                 /></span></li>
                         <li ng-style="{'background-color': selectedTeamColors[1]}" ng-class="selectedTextClass[1]"><span class="person"><angucomplete-alt id="gm-select"
@@ -57,6 +58,7 @@
               minlength="1"
               input-class="form-control"
               input-changed="updateWins"
+              focus-out="clickOff"
               initial-value="{{selectedTeamPeople.gm}}"
                                 /></span></li>
                         <li ng-style="{'background-color': selectedTeamColors[2]}" ng-class="selectedTextClass[2]"><span class="person"><angucomplete-alt id="coach-select"
@@ -69,21 +71,31 @@
               minlength="1"
               input-class="form-control"
               input-changed="updateWins"
+              focus-out="clickOff"
               initial-value="{{selectedTeamPeople.coach}}"
                                 /></span></li>
                 </ul>
         </div>
 </div>
 
-<div class="row" ng-if="selectedTeamPeople != undefined">
+<div class="row fade-in-animation" ng-if="selectedTeamPeople != undefined">
     <div class="col-md-12">
         <div class="text-center win-text">
             <div ng-switch on="winState">
                 <span ng-switch-when="original">
-                    <p>Try changing the names on the right to see how many more or less games the {{selectedTeam.originalObject.nick}} would win in an average season.</p>
+                    <p>Try changing the names under "New Leadership" to see how many more or less games the {{selectedTeam.originalObject.nick}} would win in an average season.</p>
                 </span>
                 <span ng-switch-when="invalid">
                     <p>We can't find an answer.  Have you entered a name incorrectly?</p>
+                </span>
+                <span ng-switch-when="invalid_coach">
+                    <p>We can't find the coach that you entered.  The OwnerDraft database only contains coaches who coached in 2014.  If you have a name you want added, let <a href="http://www.twitter.com/vikparuchuri">@vikparuchuri</a> know!</p>
+                </span>
+                <span ng-switch-when="invalid_gm">
+                    <p>We can't find the GM that you entered.  The OwnerDraft database only contains GMs who managed in 2014.  If you have a name you want added, let <a href="http://www.twitter.com/vikparuchuri">@vikparuchuri</a> know!</p>
+                </span>
+                <span ng-switch-when="invalid_owner">
+                    <p>We can't find the owner that you entered.  The OwnerDraft database only contains active owners in 2014.  If you have a name you want added, let <a href="http://www.twitter.com/vikparuchuri">@vikparuchuri</a> know!</p>
                 </span>
                 <span ng-switch-default>
                     <p>The new leadership for the {{selectedTeam.originalObject.nick}} would be {{winText}}.</p>

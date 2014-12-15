@@ -61,7 +61,7 @@ angular.module('ownerchangefrontendApp')
             return {}
         };
 
-        var updateWins = function(type, val){
+        var updateWins = function(type, val, focusOut){
             var gm;
             var owner;
             var coach;
@@ -109,36 +109,48 @@ angular.module('ownerchangefrontendApp')
                         $scope.startWins = startWins;
                         console.log(startWins);
                         var diff = $scope.newWins - $scope.startWins;
-                        if(diff < - 1){
+                        if(diff < - 2){
                             $scope.winState = "much_worse";
-                            $scope.winText = "much worse (lose more than one more game a season)"
-                        } else if (diff < - .5) {
+                            $scope.winText = "much worse (lose more than two more games a season)"
+                        } else if (diff < - 1) {
                             $scope.winState = "worse";
-                            $scope.winText = "worse (lose an extra 1/2 game a season)"
-                        } else if (diff < -.25){
+                            $scope.winText = "worse (lose between one and two more games a season)"
+                        } else if (diff < -.5){
                             $scope.winState = "moderately_worse";
-                            $scope.winText = "moderately worse (lose an extra 1/4 game a season)"
+                            $scope.winText = "moderately worse (lose an extra 1/2 game a season)"
                         } else if (diff < 0){
                             $scope.winState = "slightly_worse";
-                            $scope.winText = "slightly worse (lose less than 1/4 more games a season)"
-                        } else if (diff < .25){
-                            $scope.winState = "slightly_better";
-                            $scope.winText = "slightly better (win less than 1/4 more games a season)"
+                            $scope.winText = "slightly worse (lose less than 1/2 more games a season)"
                         } else if (diff < .5){
-                            $scope.winState = "moderately_better";
-                            $scope.winText = "moderately better (win an extra 1/4 game a season)"
+                            $scope.winState = "slightly_better";
+                            $scope.winText = "slightly better (win less than 1/2 more games a season)"
                         } else if (diff < 1){
+                            $scope.winState = "moderately_better";
+                            $scope.winText = "moderately better (win an extra 1/2 game a season)"
+                        } else if (diff < 2){
                             $scope.winState = "better";
-                            $scope.winText = "better (win an extra 1/2 game a season)";
+                            $scope.winText = "better (win between one and two extra games a season)";
                         } else {
                             $scope.winState = "much_better";
-                            $scope.winText = "much better (win more than one more game a season)"
+                            $scope.winText = "much better (win more than two more games a season)"
                         }
                         if ($scope.startingCoach.id == coachID && $scope.startingGM.id == gmID && $scope.startingOwner.id == ownerID) {
                             $scope.winState = "original";
                         }
                     } else {
                         $scope.winState = "invalid";
+                    }
+                } else {
+                    if(focusOut){
+                        if(coachID == undefined){
+                            $scope.winState = "invalid_coach";
+                        }
+                        if(gmID == undefined){
+                            $scope.winState = "invalid_gm";
+                        }
+                        if(ownerID == undefined){
+                            $scope.winState = "invalid_owner";
+                        }
                     }
                 }
             } else {
@@ -205,6 +217,11 @@ angular.module('ownerchangefrontendApp')
                 $scope.selectedTeamPeople = undefined;
             }
         }, true);
+
+        $scope.clickOff = function(){
+            console.log("focus out");
+            updateWins("", "", true);
+        };
 
         $scope.$watch('selectedOwner', function(oldValue, newValue){
             if(newValue != undefined) {
