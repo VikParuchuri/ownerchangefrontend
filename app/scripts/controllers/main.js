@@ -24,18 +24,28 @@ angular.module('ownerchangefrontendApp')
         $scope.showLeaderInputs = false;
         $scope.winState = "none";
 
+
+        var updateTB = function(list, key){
+            for(var i=0;i<list.length;i++){
+                var item = list[i];
+                if(item[key] == "Tampa Bay Buccaneers"){
+                    item.image = "images/logos/tampa-bay-buccaneers.png";
+                }
+            }
+            return list;
+        };
+
         api.getMeta().then(function(data){
             $scope.meta = data;
             $scope.teamInfo = $scope.meta.team_info;
             $scope.owners = data.positions.owners;
             $scope.gms = data.positions.gms;
             $scope.coaches = data.positions.coaches;
-            for(var i=0;i<$scope.teamInfo.length;i++){
-                var item = $scope.teamInfo[i];
-                if(item.name == "Tampa Bay Buccaneers"){
-                    item.image = "images/logos/tampa-bay-buccaneers.png";
-                }
-            }
+            $scope.teamInfo = updateTB($scope.teamInfo, "name");
+            $scope.owners = updateTB($scope.owners, "team_name");
+            $scope.gms = updateTB($scope.gms, "team_name");
+            $scope.coaches = updateTB($scope.coaches, "team_name");
+
         });
 
         api.getTeamColors().then(function(data){
@@ -88,18 +98,19 @@ angular.module('ownerchangefrontendApp')
                 var gmID = $scope.meta.names_to_ids[gm];
                 var ownerID = $scope.meta.names_to_ids[owner];
                 if(coachID == undefined && gmID == undefined && ownerID == undefined){
-                    coachID = $scope.startingCoach.id;
-                    gmID = $scope.startingGM.id;
-                    ownerID = $scope.startingOwner.id;
+                    coachID = $scope.meta.names_to_ids[$scope.startingCoach.name];
+                    gmID = $scope.meta.names_to_ids[$scope.startingGM.name];
+                    ownerID = $scope.meta.names_to_ids[$scope.startingOwner.name];
                 }
 
                 if(coachID != undefined && ownerID != undefined && gmID != undefined) {
                     var id = coachID + "_" + gmID + "_" + ownerID + "_" + $scope.selectedTeam.originalObject.code;
                     var newWins = $scope.selectedTeamWins[id];
 
-                    var startID = $scope.startingCoach.id + "_" + $scope.startingGM.id + "_" + $scope.startingOwner.id + "_" + $scope.selectedTeam.originalObject.code;
+                    var startID = $scope.meta.names_to_ids[$scope.startingCoach.name] + "_" + $scope.meta.names_to_ids[$scope.startingGM.name] + "_" + $scope.meta.names_to_ids[$scope.startingOwner.name] + "_" + $scope.selectedTeam.originalObject.code;
                     var startWins = $scope.selectedTeamWins[startID];
-
+                    console.log(newWins);
+                    console.log(startWins);
                     $scope.winData = undefined;
                     $scope.winState = "original";
                     if (!$scope.$$phase) $scope.$apply();
@@ -207,12 +218,10 @@ angular.module('ownerchangefrontendApp')
                 while(count < 4){
                     var ind = JSON.parse(JSON.stringify(count));
                     while(colors.length <= ind){
-                        console.log(ind);
                         ind = ind - colors.length;
                     }
 
                     if(colors[ind] != "FFFFFF") {
-                        console.log(count);
                         shareColors.push("#" + colors[ind]);
                     }
                     count = count + 1;
