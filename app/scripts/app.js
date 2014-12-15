@@ -10,6 +10,7 @@
  */
 angular
     .module('ownerchangefrontendApp', [
+        'ownerchangefrontendApp.config',
         'ngAnimate',
         'ngAria',
         'ngCookies',

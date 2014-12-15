@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('ownerchangefrontendApp.api', [])
-    .factory('api', function ($http, $q) {
+angular.module('ownerchangefrontendApp.api', ["ownerchangefrontendApp.config"])
+    .factory('api', function ($http, $q, settings) {
 
         var getURL = function(url){
             var deferred = $q.defer();
@@ -17,13 +17,13 @@ angular.module('ownerchangefrontendApp.api', [])
 
         return {
             getMeta: function () {
-                return getURL("data/meta.json");
+                return getURL("data/meta.json?version=" + settings.version);
             },
             getTeamColors: function(){
-                return getURL("data/team-colors.json");
+                return getURL("data/team-colors.json?version=" + settings.version);
             },
             getTeamInfo: function(code){
-                return getURL("data/teams/" + code + ".json");
+                return getURL("data/teams/" + code + ".json?version=" + settings.version);
             }
         };
     });

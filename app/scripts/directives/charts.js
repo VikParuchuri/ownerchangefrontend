@@ -53,7 +53,29 @@ angular.module('ownerchangefrontendApp').
                         })
                         .attr("y", function (d) {
                             return h - (d.wins * h / 16) - .5;
+                        });
+
+                    chart.selectAll("text")
+                        .data(data)
+                        .enter()
+                        .append("text")
+                        .text(function (d, i) {
+                            if (i == 0) {
+                                return "Current";
+                            } else {
+                                return "New";
+                            }
+
                         })
+                        .attr("x", function (d, i) {
+                            return x(i) + w/2;
+                        })
+                        .attr("y", function (d) {
+                            return h - (d.wins * h / 16) + 15.5;
+                        })
+                        .attr("font-size", "11px")
+                        .attr("fill", "white")
+                        .attr("text-anchor", "middle")
                 });
 
 

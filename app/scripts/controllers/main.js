@@ -119,11 +119,11 @@ angular.module('ownerchangefrontendApp')
                         $scope.startWins = startWins;
                         $scope.winData = [
                             {
-                                "wins": startWins + Math.random()/100,
+                                "wins": startWins,
                                 "color": $scope.selectedTeamShareColors[0]
                             },
                             {
-                                "wins": newWins + Math.random()/100,
+                                "wins": newWins,
                                 "color": $scope.selectedTeamShareColors[1]
                             }
                         ];
@@ -153,7 +153,7 @@ angular.module('ownerchangefrontendApp')
                             $scope.winState = "much_better";
                             $scope.winText = "much better (win more than two more games a season)"
                         }
-                        if ($scope.startingCoach.id == coachID && $scope.startingGM.id == gmID && $scope.startingOwner.id == ownerID) {
+                        if ($scope.meta.names_to_ids[$scope.startingCoach.name] == coachID && $scope.meta.names_to_ids[$scope.startingGM.name] == gmID && $scope.meta.names_to_ids[$scope.startingOwner.name] == ownerID) {
                             $scope.winState = "original";
                         }
                     } else {
